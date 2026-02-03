@@ -30,8 +30,8 @@ public class Benchmark00302 extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     /**
-     * Sanitize user-controlled input before including it in an OS command.
-     * This method removes characters commonly used for command injection.
+     * Sanitize user-controlled input before including it in an OS command. This method removes
+     * characters commonly used for command injection.
      */
     private static String sanitizeForCommand(String input) {
         if (input == null) {
