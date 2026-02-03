@@ -71,7 +71,17 @@ public class Benchmark00207 extends HttpServlet {
             javax.xml.xpath.XPathFactory xpf = javax.xml.xpath.XPathFactory.newInstance();
             javax.xml.xpath.XPath xp = xpf.newXPath();
 
-            String expression = "/Employees/Employee[@emplid='" + bar + "']";
+            String expression = "/Employees/Employee[@emplid=$emplid]";
+            xp.setXPathVariableResolver(
+                    new javax.xml.xpath.XPathVariableResolver() {
+                        @Override
+                        public Object resolveVariable(javax.xml.namespace.QName variableName) {
+                            if ("emplid".equals(variableName.getLocalPart())) {
+                                return bar;
+                            }
+                            return null;
+                        }
+                    });
             String result = xp.evaluate(expression, xmlDocument);
 
             response.getWriter().println("Your query results are: " + result + "<br/>");
