@@ -56,6 +56,7 @@ public class Benchmark00207 extends HttpServlet {
                                     org.apache.commons.codec.binary.Base64.encodeBase64(
                                             param.getBytes())));
         }
+        final String bar2 = bar;
 
         try {
             java.io.FileInputStream file =
@@ -77,7 +78,7 @@ public class Benchmark00207 extends HttpServlet {
                         @Override
                         public Object resolveVariable(javax.xml.namespace.QName variableName) {
                             if ("emplid".equals(variableName.getLocalPart())) {
-                                return bar;
+                                return bar2;
                             }
                             return null;
                         }
