@@ -30,8 +30,8 @@ public class Benchmark00087 extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     /**
-     * Sanitize a value for safe use as a cookie value by removing CR, LF and
-     * other non-printable control characters that could enable header splitting.
+     * Sanitize a value for safe use as a cookie value by removing CR, LF and other non-printable
+     * control characters that could enable header splitting.
      */
     private static String sanitizeForCookie(String value) {
         if (value == null) {
