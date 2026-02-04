@@ -82,8 +82,8 @@ public class Benchmark00825 extends HttpServlet {
             org.owasp.benchmark.helpers.Utils.printOSCommandResults(p, response);
         } catch (IOException e) {
             System.out.println("Problem executing cmdi - Case");
-            response.getWriter()
-                    .println(org.owasp.esapi.ESAPI.encoder().encodeForHTML(e.getMessage()));
+            e.printStackTrace();
+            response.getWriter().println("Problem executing cmdi - Case");
             return;
         }
     }
