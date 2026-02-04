@@ -29,6 +29,36 @@ public class Benchmark00728 extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
 
+    private static String escapeHtml(String input) {
+        if (input == null) {
+            return "";
+        }
+        StringBuilder sb = new StringBuilder(input.length());
+        for (int i = 0; i < input.length(); i++) {
+            char c = input.charAt(i);
+            switch (c) {
+                case '&':
+                    sb.append("&amp;");
+                    break;
+                case '<':
+                    sb.append("&lt;");
+                    break;
+                case '>':
+                    sb.append("&gt;");
+                    break;
+                case '"':
+                    sb.append("&quot;");
+                    break;
+                case '\'':
+                    sb.append("&#x27;");
+                    break;
+                default:
+                    sb.append(c);
+            }
+        }
+        return sb.toString();
+    }
+
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -53,6 +83,6 @@ public class Benchmark00728 extends HttpServlet {
         else bar = "This should never happen";
 
         response.setHeader("X-XSS-Protection", "0");
-        response.getWriter().println(bar);
+        response.getWriter().println(escapeHtml(bar));
     }
 }
