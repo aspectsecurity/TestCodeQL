@@ -29,6 +29,18 @@ public class Benchmark00087 extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
 
+    /**
+     * Sanitize a value for safe use as a cookie value by removing CR, LF and other non-printable
+     * control characters that could enable header splitting.
+     */
+    private static String sanitizeForCookie(String value) {
+        if (value == null) {
+            return null;
+        }
+        // Remove CR, LF and other control characters (0x00-0x1F and 0x7F)
+        return value.replaceAll("[\\x00-\\x1F\\x7F]", "");
+    }
+
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -86,7 +98,8 @@ public class Benchmark00087 extends HttpServlet {
             str = new String(input, 0, i);
         }
         if ("".equals(str)) str = "No cookie value supplied";
-        javax.servlet.http.Cookie cookie = new javax.servlet.http.Cookie("SomeCookie", str);
+        String safeStr = sanitizeForCookie(str);
+        javax.servlet.http.Cookie cookie = new javax.servlet.http.Cookie("SomeCookie", safeStr);
 
         cookie.setSecure(false);
         cookie.setHttpOnly(true);
