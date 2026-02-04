@@ -52,8 +52,7 @@ public class Benchmark00441 extends HttpServlet {
         String sql = "INSERT INTO users (username, password) VALUES ('foo', ?)";
 
         try {
-            Connection connection =
-                    org.owasp.benchmark.helpers.DatabaseHelper.getSqlConnection();
+            Connection connection = org.owasp.benchmark.helpers.DatabaseHelper.getSqlConnection();
             PreparedStatement preparedStatement =
                     connection.prepareStatement(sql, new int[] {1, 2});
             preparedStatement.setString(1, bar);
