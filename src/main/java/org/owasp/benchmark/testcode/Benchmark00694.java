@@ -23,6 +23,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.owasp.esapi.ESAPI;
 
 @WebServlet(value = "/ldapi-00/Benchmark00694")
 public class Benchmark00694 extends HttpServlet {
@@ -54,7 +55,8 @@ public class Benchmark00694 extends HttpServlet {
             String base = "ou=users,ou=system";
             javax.naming.directory.SearchControls sc = new javax.naming.directory.SearchControls();
             sc.setSearchScope(javax.naming.directory.SearchControls.SUBTREE_SCOPE);
-            String filter = "(&(objectclass=person)(uid=" + bar + "))";
+            String safeBar = ESAPI.encoder().encodeForLDAP(bar);
+            String filter = "(&(objectclass=person)(uid=" + safeBar + "))";
             // System.out.println("Filter " + filter);
             boolean found = false;
             javax.naming.NamingEnumeration<javax.naming.directory.SearchResult> results =
