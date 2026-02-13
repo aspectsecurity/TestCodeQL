@@ -29,6 +29,18 @@ public class Benchmark00302 extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
 
+    /**
+     * Sanitize user-controlled input before including it in an OS command. This method removes
+     * characters commonly used for command injection.
+     */
+    private static String sanitizeForCommand(String input) {
+        if (input == null) {
+            return "";
+        }
+        // Remove characters that can alter command structure
+        return input.replaceAll("[;&|`<>\\r\\n]", "");
+    }
+
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -66,7 +78,8 @@ public class Benchmark00302 extends HttpServlet {
         Runtime r = Runtime.getRuntime();
 
         try {
-            Process p = r.exec(cmd + bar);
+            String safeBar = sanitizeForCommand(bar);
+            Process p = r.exec(cmd + safeBar);
             org.owasp.benchmark.helpers.Utils.printOSCommandResults(p, response);
         } catch (IOException e) {
             System.out.println("Problem executing cmdi - Case");
